@@ -20,22 +20,4 @@ public class Palindrome {
         }
         return true;
     }
-
-    private static String reversedWord(String s) {
-        var l = 0;
-        var r = s.length() - 1;
-        var str = s.split("");
-        while (l < r) {
-            var tmp = str[l];
-            str[l] = str[r];
-            str[r] = tmp;
-            l++;
-            r--;
-        }
-        StringBuilder builder = new StringBuilder();
-        for (String w : str) {
-            builder.append(w);
-        }
-        return builder.toString();
-    }
 }
