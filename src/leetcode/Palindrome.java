@@ -8,9 +8,17 @@ public class Palindrome {
     }
 
     private static boolean isPalindrome(String s) {
-        var normalized = s.replaceAll("[^A-Za-z0-9]", "").toLowerCase();
-        var reversedWord = reversedWord(normalized);
-        return normalized.equals(reversedWord);
+        var str = s.replaceAll("[^A-Za-z0-9]", "").toLowerCase().split("");
+        var l = 0;
+        var r = str.length - 1;
+        while(l < r) {
+            if(!str[l].equals(str[r])) {
+                return false;
+            }
+            l++;
+            r--;
+        }
+        return true;
     }
 
     private static String reversedWord(String s) {
