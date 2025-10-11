@@ -1,6 +1,6 @@
 package interview;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 //A bracket is considered to be any one of the following characters: (, ), {, }, [, or ].
 
@@ -27,25 +27,51 @@ import java.util.ArrayList;
 public class Brackets {
 
     public static void main(String[] args) {
+//        System.out.println(bracketResult("{([])}"));
+//        System.out.println(bracketResult("{}[][()]{([])}"));
+//
+//        System.out.println(bracketResult("{{([])}"));
+        System.out.println(bracketResult("{{[[])}}"));
+        System.out.println(bracketResult("{][}"));
     }
 
-    public boolean bracketResult(String brackets) {
+    public static boolean bracketResult(String brackets) {
         var b = brackets.split("");
 
-        if (b.length % 2 == 0) {
+        if (b.length % 2 != 0) {
             return false;
         }
 
-        var l = 0;
-        var r = b.length - 1;
-        var list = new ArrayList<String>();
+        var result = false;
 
-        while (l < r) {
-            if (b[l] == "{" && !list.contains(b[l])) {
-                list.add(b[l]);
+        HashMap<String, Integer> mapOpenBrackets = new HashMap<>();
+        for (int i = 0; i < b.length; i++) {
+            if (b[i].equals("{") || b[i].equals("(") || b[i].equals("[")) {
+                mapOpenBrackets.put(b[i], i);
             }
         }
-        return false;
+
+        for (int i = 0; i < b.length; i++) {
+            if (!mapOpenBrackets.containsKey(b[i])) {
+                if (b[i].equals("}") && mapOpenBrackets.containsKey("{")) {
+                    result = validateBrackets(mapOpenBrackets, "{", i);
+                }
+                if (b[i].equals(")") && mapOpenBrackets.containsKey("(")) {
+                    result = validateBrackets(mapOpenBrackets, "(", i);
+                }
+                if (b[i].equals("]") && mapOpenBrackets.containsKey("[")) {
+                    result = validateBrackets(mapOpenBrackets, "[", i);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private static boolean validateBrackets(HashMap<String, Integer> mapOpenBrackets, String bracket, int i) {
+        Integer idx = mapOpenBrackets.get(bracket);
+        mapOpenBrackets.remove(bracket);
+        return i > idx;
     }
 
 }
