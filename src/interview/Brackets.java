@@ -1,7 +1,5 @@
 package interview;
 
-import java.util.HashMap;
-
 //A bracket is considered to be any one of the following characters: (, ), {, }, [, or ].
 
 //Two brackets are considered to be a matched pair if an opening bracket (i.e., (, [, or {) occurs to the left of a closing bracket (i.e., ), ], or }) of the exact same type. There are three types of matched pairs of brackets: [], {}, and ().
@@ -24,54 +22,65 @@ import java.util.HashMap;
 // {][}
 //
 
+import java.util.ArrayList;
+
 public class Brackets {
 
     public static void main(String[] args) {
-//        System.out.println(bracketResult("{([])}"));
-//        System.out.println(bracketResult("{}[][()]{([])}"));
-//
-//        System.out.println(bracketResult("{{([])}"));
+        System.out.println(bracketResult("{([])}"));
+        System.out.println(bracketResult("{}[][()]{([])}"));
+
+        System.out.println(bracketResult("{{([])}"));
         System.out.println(bracketResult("{{[[])}}"));
         System.out.println(bracketResult("{][}"));
     }
 
-    public static boolean bracketResult(String brackets) {
-        var b = brackets.split("");
-
-        if (b.length % 2 != 0) {
+    public static boolean bracketResult(String bracket) {
+        if (bracket == null || bracket.length() % 2 != 0 || bracket.length() < 2) {
             return false;
         }
+        var b = bracket.split("");
+        var cbIdx = new ArrayList<Integer>();
 
+        var ob = 0;
+        var cb = 1;
         var result = false;
 
-        HashMap<String, Integer> mapOpenBrackets = new HashMap<>();
-        for (int i = 0; i < b.length; i++) {
-            if (b[i].equals("{") || b[i].equals("(") || b[i].equals("[")) {
-                mapOpenBrackets.put(b[i], i);
+        while (ob < bracket.length()) {
+            String l = b[ob];
+            if (cb >= b.length) {
+                ob++;
+                continue;
             }
-        }
+            String r = b[cb];
+            if (isClosingBracket(l) && !cbIdx.contains(ob)) {
+                return false;
+            }
+            if (l.equals("{") && r.equals("}") || l.equals("(") && r.equals(")") || l.equals("[") && r.equals("]")) {
+                cbIdx.add(cb);
+                if (cb - ob == 1) {
+                    ob += 2;
+                    cb += 2;
+                } else {
+                    ob++;
+                    cb = ob + 1;
+                }
+                result = true;
+            } else {
+                cb++;
+            }
 
-        for (int i = 0; i < b.length; i++) {
-            if (!mapOpenBrackets.containsKey(b[i])) {
-                if (b[i].equals("}") && mapOpenBrackets.containsKey("{")) {
-                    result = validateBrackets(mapOpenBrackets, "{", i);
-                }
-                if (b[i].equals(")") && mapOpenBrackets.containsKey("(")) {
-                    result = validateBrackets(mapOpenBrackets, "(", i);
-                }
-                if (b[i].equals("]") && mapOpenBrackets.containsKey("[")) {
-                    result = validateBrackets(mapOpenBrackets, "[", i);
-                }
+            if (ob == b.length - 1 && !result) {
+                return false;
             }
         }
 
         return result;
     }
 
-    private static boolean validateBrackets(HashMap<String, Integer> mapOpenBrackets, String bracket, int i) {
-        Integer idx = mapOpenBrackets.get(bracket);
-        mapOpenBrackets.remove(bracket);
-        return i > idx;
+    private static boolean isClosingBracket(String l) {
+        return l.equals("}") || l.equals(")") || l.equals("]");
     }
+
 
 }
