@@ -22,65 +22,83 @@ package interview;
 // {][}
 //
 
-import java.util.ArrayList;
+import java.util.ArrayDeque;
+import java.util.Map;
+import java.util.Stack;
 
 public class Brackets {
 
     public static void main(String[] args) {
         System.out.println(bracketResult("{([])}"));
         System.out.println(bracketResult("{}[][()]{([])}"));
+        System.out.println(bracketResult("{(})"));
 
         System.out.println(bracketResult("{{([])}"));
         System.out.println(bracketResult("{{[[])}}"));
         System.out.println(bracketResult("{][}"));
+
+        /*---------------------------------------------------------*/
+
+        System.out.println(bracketResultWithMap("{([])}"));
+        System.out.println(bracketResultWithMap("{}[][()]{([])}"));
+        System.out.println(bracketResultWithMap("{(})"));
+
+        System.out.println(bracketResultWithMap("{{([])}"));
+        System.out.println(bracketResultWithMap("{{[[])}}"));
+        System.out.println(bracketResultWithMap("{][}"));
     }
 
     public static boolean bracketResult(String bracket) {
-        if (bracket == null || bracket.length() % 2 != 0 || bracket.length() < 2) {
+        if (bracket == null || bracket.length() % 2 != 0) {
             return false;
         }
-        var b = bracket.split("");
-        var cbIdx = new ArrayList<Integer>();
+        var stack = new Stack<Character>();
 
-        var ob = 0;
-        var cb = 1;
-        var result = false;
+        for (char s : bracket.toCharArray()) {
+            switch (s) {
+                case '{', '(', '[':
+                    stack.push(s);
+                    break;
 
-        while (ob < bracket.length()) {
-            String l = b[ob];
-            if (cb >= b.length) {
-                ob++;
-                continue;
-            }
-            String r = b[cb];
-            if (isClosingBracket(l) && !cbIdx.contains(ob)) {
-                return false;
-            }
-            if (l.equals("{") && r.equals("}") || l.equals("(") && r.equals(")") || l.equals("[") && r.equals("]")) {
-                cbIdx.add(cb);
-                if (cb - ob == 1) {
-                    ob += 2;
-                    cb += 2;
-                } else {
-                    ob++;
-                    cb = ob + 1;
-                }
-                result = true;
-            } else {
-                cb++;
-            }
-
-            if (ob == b.length - 1 && !result) {
-                return false;
+                case '}':
+                    if (stack.isEmpty() || stack.pop() != '{') {
+                        return false;
+                    }
+                    break;
+                case ')':
+                    if (stack.isEmpty() || stack.pop() != '(') {
+                        return false;
+                    }
+                    break;
+                case ']':
+                    if (stack.isEmpty() || stack.pop() != '[') {
+                        return false;
+                    }
+                    break;
+                default:
             }
         }
-
-        return result;
+        return stack.isEmpty();
     }
 
-    private static boolean isClosingBracket(String l) {
-        return l.equals("}") || l.equals(")") || l.equals("]");
-    }
+    public static boolean bracketResultWithMap(String bracket) {
+        var pairs = Map.of(
+                '}', '{',
+                ')', '(',
+                ']', '['
+        );
+        var stack = new ArrayDeque<Character>();
 
+        for (char s : bracket.toCharArray()) {
+            if (pairs.containsValue(s)) {
+                stack.push(s);
+            } else if (pairs.containsKey(s)) {
+                if (stack.isEmpty() || stack.pop() != pairs.get(s)) {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
 
 }
