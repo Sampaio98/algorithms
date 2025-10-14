@@ -22,7 +22,7 @@ package interview;
 // {][}
 //
 
-import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Stack;
 
@@ -87,7 +87,7 @@ public class Brackets {
                 ')', '(',
                 ']', '['
         );
-        var stack = new ArrayDeque<Character>();
+        var stack = new LinkedList<Character>();
 
         for (char s : bracket.toCharArray()) {
             if (pairs.containsValue(s)) {
