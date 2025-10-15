@@ -3,8 +3,8 @@ package leetcode;
 public class isSubsequence {
 
     public static void main(String[] args) {
-        var isPalindrome = isSubsequence("abc", "ahbgdc");
-        System.out.println(isPalindrome);
+        var isSubsequence = isSubsequence("abc", "ahbgdc");
+        System.out.println(isSubsequence);
     }
 
     private static boolean isSubsequence(String s, String t) {
