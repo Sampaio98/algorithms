@@ -24,11 +24,11 @@ public class RansomNote {
             }
         }
 
-        for (int i = 0; i < r.length; i++) {
-            var contains = map.get(r[i]);
+        for (char c : r) {
+            var contains = map.get(c);
             if (contains != null && contains != 0) {
                 countMatch++;
-                map.put(r[i], contains - 1);
+                map.put(c, contains - 1);
             }
         }
 
