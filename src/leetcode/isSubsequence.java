@@ -9,8 +9,8 @@ public class isSubsequence {
 
     private static boolean isSubsequence(String s, String t) {
         var aux = 0;
-        for(int i = 0; i < t.length(); i++) {
-            if(aux < s.length() && s.charAt(aux) == t.charAt(i)) {
+        for (int i = 0; i < t.length(); i++) {
+            if (aux < s.length() && s.charAt(aux) == t.charAt(i)) {
                 aux++;
             }
         }
