@@ -1,29 +1,31 @@
 package leetcode;
 
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 
 public class LongestConsecutive {
 
     public static void main(String[] args) {
-        var result = longestConsecutive(new int[]{2, 20, 4, 10, 3, 4, 5});
-        System.out.println(result);
+//        System.out.println(longestConsecutive(new int[]{9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6}));
+//        System.out.println(longestConsecutive(new int[]{100, 4, 200, 1, 3, 2}));
+        System.out.println(longestConsecutive(new int[]{1, 0, 1, 2}));
     }
 
     public static int longestConsecutive(int[] nums) {
         if (nums.length == 0) return 0;
         Arrays.sort(nums);
-        var set = new LinkedHashSet<Integer>();
-        for (int a : nums) {
-            set.add(a);
-        }
-        System.out.println(set);
-        var result = 1;
+        var max = 1;
+        var aux = 1;
         for (int i = 1; i < nums.length; i++) {
-            if (nums[i] - nums[i - 1] == 1) {
-                result++;
+            if (nums[i] == nums[i - 1]) {
+                continue;
             }
+            if (nums[i] - nums[i - 1] == 1) {
+                aux++;
+            } else {
+                aux = 1;
+            }
+            max = Math.max(max, aux);
         }
-        return result;
+        return max;
     }
 }
