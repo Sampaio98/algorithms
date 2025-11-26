@@ -23,9 +23,9 @@ class ValidSudoku {
         }
 
         fun isValidSudoku(board: Array<CharArray>): Boolean {
-            val rows = mutableMapOf<Int, MutableSet<Char>>();
-            val columns = mutableMapOf<Int, MutableSet<Char>>();
-            val boxes = mutableMapOf<Int, MutableSet<Char>>();
+            val rows = mutableMapOf<Int, MutableSet<Char>>()
+            val columns = mutableMapOf<Int, MutableSet<Char>>()
+            val boxes = mutableMapOf<Int, MutableSet<Char>>()
 
             for (r in 0 until board.size) {
                 for (c in 0 until board.size) {
