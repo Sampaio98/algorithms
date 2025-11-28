@@ -1,6 +1,6 @@
 package implementation;
 
-public class HashMapImpl<K, V> {
+public class HashMapChaining<K, V> {
     private static final int INITIAL_CAPACITY = 16;
     private static final float LOAD_FACTOR = 0.75f;
 
@@ -8,7 +8,7 @@ public class HashMapImpl<K, V> {
     private Entry<K, V>[] buckets;
 
     @SuppressWarnings("unchecked")
-    public HashMapImpl() {
+    public HashMapChaining() {
         this.size = 0;
         this.buckets = new Entry[INITIAL_CAPACITY];
     }
