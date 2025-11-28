@@ -199,22 +199,21 @@ class Challenge {
         return Optional.empty()
     }
 
-    private fun addSummary(txn: RawTxn, result: MutableList<Result>) {
+    private fun addSummary(txn: RawTxn, results: MutableList<Result>) {
         val amount = txn.amount!!
         val merchantId = txn.merchantId!!
+        val resultFound = results
+            .filterIsInstance<Result.Summary>()
+            .firstOrNull { it.merchantId == merchantId }
 
-        result.filter { it is Result.Summary }.forEachIndexed { index, it ->
-            it as Result.Summary
-            if (it.merchantId == merchantId) {
-                val count = it.count + 1
-                val amount: BigDecimal = amount.plus(it.total)
-                result[index] = it.copy(total = amount, count = count)
-            } else {
-                result.add(Result.Summary(merchantId, amount, 1))
-                return
-            }
+        if (resultFound != null) {
+            val count = resultFound.count + 1
+            val amount: BigDecimal = amount.plus(resultFound.total)
+            val index = results.indexOf(resultFound)
+            results[index] = resultFound.copy(total = amount, count = count)
+        } else {
+            results.add(Result.Summary(merchantId, amount, 1))
         }
-        if (result.isEmpty()) result.add(Result.Summary(merchantId, amount, 1))
     }
 
 
