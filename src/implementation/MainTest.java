@@ -10,8 +10,9 @@ public class MainTest {
         map.put(2, "asdf");
         map.put(1, "updated value");
         map.put(3, "131f1");
-//        map.put(5, "fasdf");
-//        map.put(6, "asdfd");
+        map.put(4, "fasdf");
+        map.put(1, "asdfd");
+        System.out.println(map);
 //        map.show();
 //
 //        String valueRemoved = map.remove(5);

@@ -1,9 +1,9 @@
 package implementation;
 
 public class HashMapStudy<K, V> {
-    private static final int INITIAL_CAPACITY = 10;
+    private static final int INITIAL_CAPACITY = 1;
 
-    private final Tuple<K, V>[] buckets;
+    private Tuple<K, V>[] buckets;
     private int size;
 
     public HashMapStudy() {
@@ -13,18 +13,25 @@ public class HashMapStudy<K, V> {
 
     public void put(K key, V value) {
         var index = hash(key);
+
+        if (size >= buckets.length) {
+            resize();
+        }
+
         if (buckets[index] == null) {
             buckets[index] = new Tuple<>(key, value);
             size++;
         } else {
-            var curr = buckets[index];
-            if (curr.key.equals(key)) {
-                curr.value = value;
+            var bucket = buckets[index];
+            if (bucket.key.equals(key)) {
+                bucket.value = value;
             } else {
                 buckets[index] = new Tuple<>(key, value);
                 size++;
             }
         }
+
+
     }
 
     public V get(K key) {
@@ -40,10 +47,35 @@ public class HashMapStudy<K, V> {
         return size;
     }
 
+    private void resize() {
+        var oldBuckets = buckets;
+        this.buckets = new Tuple[buckets.length * 2];
+        this.size = 0;
+
+        for (Tuple<K, V> oldBucket : oldBuckets) {
+            int index = hash(oldBucket.key);
+            buckets[index] = new Tuple<>(oldBucket.key, oldBucket.value);
+        }
+    }
+
     private int hash(K key) {
         if (key == null) return 0;
-        return key.hashCode() % buckets.length;
+        return Math.abs(key.hashCode() % buckets.length);
     }
+
+    @Override
+    public String toString() {
+        var sb = new StringBuilder();
+        for (Tuple<K, V> bucket : buckets) {
+            if (bucket != null) {
+                sb.append("[ Key: ").append(bucket.key).append(", Value: ").append(bucket.value).append(" ]");
+            } else {
+                sb.append("null");
+            }
+        }
+        return sb.toString();
+    }
+
 
     static class Tuple<K, V> {
         K key;
@@ -54,6 +86,10 @@ public class HashMapStudy<K, V> {
             this.value = value;
         }
 
+        @Override
+        public String toString() {
+            return this.key + "->" + this.value;
+        }
     }
 
 }
