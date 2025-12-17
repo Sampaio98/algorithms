@@ -1,4 +1,4 @@
-package implementation;
+package implementation.hashmap;
 
 public class HashMapChaining<K, V> {
     private static final int INITIAL_CAPACITY = 16;

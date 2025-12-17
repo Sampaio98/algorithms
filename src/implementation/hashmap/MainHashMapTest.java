@@ -1,6 +1,6 @@
-package implementation;
+package implementation.hashmap;
 
-public class MainTest {
+public class MainHashMapTest {
 
     public static void main(String[] args) {
         var start = System.currentTimeMillis();
