@@ -50,8 +50,19 @@ public class DoublyLinkedListStudy<E> {
         return item;
     }
 
-    public void removeLast() {
-
+    public E removeLast() {
+        var prev = this.last.prev;
+        var item = this.last.item;
+        this.last.item = null;
+        this.last.prev = null;
+        this.last = prev;
+        if (prev == null) {
+            first = null;
+        } else {
+            prev.next = null;
+        }
+        size--;
+        return item;
     }
 
     public void remove() {
