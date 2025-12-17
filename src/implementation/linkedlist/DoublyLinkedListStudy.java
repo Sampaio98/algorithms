@@ -40,6 +40,7 @@ public class DoublyLinkedListStudy<E> {
         this.first.item = null;
         this.first.next = null;
         this.first = next;
+        // if size equal 1
         if (next == null) {
             last = null;
         } else {
