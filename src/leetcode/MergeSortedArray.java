@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class MergeSortedArray {
 
-    public static void main(String[] args) {
+    static void main() {
         var test1 = merge(new int[]{1, 2, 3, 0, 0, 0}, 3, new int[]{2, 5, 6}, 3);
         var test2 = merge(new int[]{0}, 0, new int[]{1}, 1);
         var test3 = merge(new int[]{1}, 1, new int[]{}, 0);
@@ -43,7 +43,22 @@ public class MergeSortedArray {
         }
 
         return nums1;
+    }
 
+    public static int[] merge2(int[] nums1, int m, int[] nums2, int n) {
+        if (n == 0) return new int[]{};
+        int totalLen = m + n;
+        int p1 = totalLen - 1;
+        n = n - 1;
+
+        for (int i = m; i < totalLen; i++) {
+            nums1[p1] = nums2[n];
+            p1--;
+            n--;
+        }
+
+        Arrays.sort(nums1);
+        return nums1;
     }
 
 }
