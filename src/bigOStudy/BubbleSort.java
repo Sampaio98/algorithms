@@ -1,10 +1,10 @@
-package implementation.sort;
+package bigOStudy;
 
 import java.util.Arrays;
 
 public class BubbleSort {
 
-    public static void main(String[] args) {
+    void main() {
         var bubbleSort = new BubbleSort();
         bubbleSort.sort(new int[]{5, 4, 3, 2, 1});
         bubbleSort.sort(new int[]{1, 2, 3, 4, 5});
