@@ -1,5 +1,7 @@
 package leetcode;
 
+import utils.ListNode;
+
 import java.util.ArrayList;
 
 public class LinkedListCycle {

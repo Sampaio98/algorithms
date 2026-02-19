@@ -1,5 +1,7 @@
 package leetcode;
 
+import utils.ListNode;
+
 public class MiddleOfLinkedList {
 
     void main() {

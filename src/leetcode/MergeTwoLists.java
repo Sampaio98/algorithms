@@ -1,5 +1,7 @@
 package leetcode;
 
+import utils.ListNode;
+
 public class MergeTwoLists {
 
     public static void main(String[] args) {
