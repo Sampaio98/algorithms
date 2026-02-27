@@ -4,15 +4,10 @@ public class MyLinkedListChallenge {
 
     public interface MyLinkedList<T> {
         void add(T val);
-
         T get(int index);
-
         boolean contains(T val);
-
         void remove(int index);
-
         void removeLast();
-
         int size();
     }
 
@@ -20,10 +15,7 @@ public class MyLinkedListChallenge {
         T val;
         MyNode<T> next;
 
-        public MyNode() {
-        }
-
-        public MyNode(T val) {
+        MyNode(T val) {
             this.val = val;
         }
     }
@@ -33,53 +25,67 @@ public class MyLinkedListChallenge {
         MyNode<T> tail;
         int size;
 
-        public MyLinkedListImpl(T val) {
-            this.head = new MyNode<>(val);
-            this.size = 1;
+        public MyLinkedListImpl() {
+            this.head = null;
+            this.tail = null;
+            this.size = 0;
         }
 
         @Override
         public void add(T val) {
-            MyNode<T> newNode = new MyNode<>(val);
-            if (tail == null) {
+            var newNode = new MyNode<>(val);
+            if (head == null) {
+                head = newNode;
                 tail = newNode;
-                head.next = tail;
             } else {
                 tail.next = newNode;
-                tail = tail.next;
+                tail = newNode;
             }
             size++;
         }
 
         @Override
         public T get(int index) {
+            validateIndex(index);
             return getNode(index).val;
         }
 
         @Override
         public boolean contains(T val) {
-            var result = head;
-            while (result != null) {
-                if (result.val.equals(val)) return true;
-                result = result.next;
+            var current = head;
+            while (current != null) {
+                if ((val == null && current.val == null) || (val != null && val.equals(current.val))) {
+                    return true;
+                }
+                current = current.next;
             }
             return false;
         }
 
         @Override
         public void remove(int index) {
-            size--;
-            var idx = Math.min(index, size) - 1;
-            var node = getNode(idx);
-            if (node != null && node.next != null) {
-                node.next = node.next.next;
+            validateIndex(index);
+
+            if (index == 0) {
+                head = head.next;
+                if (head == null) {
+                    tail = null;
+                }
             } else {
-                node.next = null;
+                var prev = getNode(index - 1);
+                prev.next = prev.next.next;
+                if (index == size - 1) {
+                    tail = prev;
+                }
             }
+            size--;
         }
 
         @Override
         public void removeLast() {
+            if (size == 0) {
+                throw new IndexOutOfBoundsException("List is empty");
+            }
             remove(size - 1);
         }
 
@@ -89,24 +95,28 @@ public class MyLinkedListChallenge {
         }
 
         private MyNode<T> getNode(int index) {
-            if (head == null) return null;
-            var result = head;
-            int i = 0;
-            while (i < index && result.next != null) {
-                result = result.next;
-                i++;
+            var current = head;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
             }
-            return result;
+            return current;
+        }
+
+        private void validateIndex(int index) {
+            if (index < 0 || index >= size) {
+                throw new IndexOutOfBoundsException();
+            }
         }
     }
 
     void main() {
-        MyLinkedListImpl<Integer> linked = new MyLinkedListImpl<>(1);
+        MyLinkedListImpl<Integer> linked = new MyLinkedListImpl<>();
+        linked.add(1);
         linked.add(2);
         linked.add(3);
         linked.add(4);
         linked.add(5);
-        IO.println(linked.get(10)); // return 5
+        IO.println(linked.get(0)); // return 1
         IO.println(linked.contains(6)); // return false
         IO.println(linked.contains(5)); // return true
 
@@ -114,10 +124,8 @@ public class MyLinkedListChallenge {
         IO.println(linked.get(1)); //should return 3
         IO.println(linked.get(2)); //should return 4
 
-        linked.remove(10);
-        IO.println(linked.get(10)); //should return 4
-
+        linked.remove(2);
+        IO.println(linked.get(1)); //should return 3
         IO.println(linked.size()); // should return 3
     }
-
 }
