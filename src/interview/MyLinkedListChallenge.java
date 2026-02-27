@@ -4,10 +4,15 @@ public class MyLinkedListChallenge {
 
     public interface MyLinkedList<T> {
         void add(T val);
+
         T get(int index);
+
         boolean contains(T val);
+
         void remove(int index);
+
         void removeLast();
+
         int size();
     }
 
@@ -54,7 +59,7 @@ public class MyLinkedListChallenge {
         public boolean contains(T val) {
             var current = head;
             while (current != null) {
-                if ((val == null && current.val == null) || (val != null && val.equals(current.val))) {
+                if ((current.val == null) || (current.val == val)) {
                     return true;
                 }
                 current = current.next;
