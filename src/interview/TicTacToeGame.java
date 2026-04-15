@@ -88,47 +88,24 @@ public class TicTacToeGame {
     }
 
     private boolean isWinner(Character letter) {
-        // VERIFY HORIZONTAL
+        // VERIFY HORIZONTAL AND VERTICAL
         for (int i = 0; i < board.length; i++) {
-            int count = 0;
+            int countHorizontal = 0, countVertical = 0;
             for (int j = 0; j < board.length; j++) {
-                if (letter.equals(board[i][j])) {
-                    count++;
-                }
+                if (letter.equals(board[i][j])) countHorizontal++;
+                if (letter.equals(board[j][i])) countVertical++;
             }
-            if (count == board.length) return true;
+            if (countHorizontal == board.length || countVertical == board.length) return true;
         }
 
-        // VERIFY VERTICAL
+        // VERIFY BOTH DIAGONALS
+        int countDiag1 = 0, countDiag2 = 0;
         for (int i = 0; i < board.length; i++) {
-            int count = 0;
-            for (int j = 0; j < board.length; j++) {
-                if (letter.equals(board[j][i])) {
-                    count++;
-                }
-            }
-            if (count == board.length) return true;
+            if (letter.equals(board[i][i])) countDiag1++;
+            if (letter.equals(board[i][board.length - 1 - i])) countDiag2++;
         }
 
-        // VERIFY MAIN DIAGONAL (\)
-        int countMainDiagonal = 0;
-        for (int i = 0; i < board.length; i++) {
-            if (letter.equals(board[i][i])) {
-                countMainDiagonal++;
-            }
-        }
-        if (countMainDiagonal == board.length) return true;
-
-        // VERIFY SECONDARY DIAGONAL (/)
-        int countSecondaryDiagonal = 0;
-        for (int i = 0; i < board.length; i++) {
-            if (letter.equals(board[i][board.length - 1 - i])) {
-                countSecondaryDiagonal++;
-            }
-        }
-        if (countSecondaryDiagonal == board.length) return true;
-
-        return false;
+        return countDiag1 == board.length || countDiag2 == board.length;
     }
 
     private boolean isInvalidPosition(int play) {
