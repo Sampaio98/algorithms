@@ -50,7 +50,6 @@ public class HashMapStudy<K, V> {
     private void resize() {
         var oldBuckets = buckets;
         this.buckets = new Tuple[buckets.length * 2];
-        this.size = 0;
 
         for (Tuple<K, V> oldBucket : oldBuckets) {
             int index = hash(oldBucket.key);
