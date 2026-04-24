@@ -2,8 +2,12 @@ package bigOStudy;
 
 import utils.TreeNode;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
+
+import static java.lang.IO.println;
 
 public class BinaryTree {
 
@@ -14,12 +18,14 @@ public class BinaryTree {
         insert(10);
         insert(15);
         insert(7);
+        insert(20);
 
-        IO.println("Search 1: " + search(1));
-        IO.println("Search 6: " + search(6));
-        IO.println("Pre order traversal: " + preorderTraversal());
-        IO.println("In order traversal: " + inOrderTraversal());
-        IO.println("Post order traversal: " + postOrderTraversal());
+        println("Search 1: " + dfs(1));
+        println("Search 6: " + dfs(6));
+        println("Pre order traversal: " + preorderTraversal());
+        println("In order traversal: " + inOrderTraversal());
+        println("Post order traversal: " + postOrderTraversal());
+        println("Breadth first search: " + bfs(20));
     }
 
     TreeNode root;
@@ -60,17 +66,17 @@ public class BinaryTree {
         }
     }
 
-    public boolean search(int val) {
-        return searchRecursive(val, root);
+    public boolean dfs(int val) {
+        return dfs(val, root);
     }
 
-    private boolean searchRecursive(int val, TreeNode node) {
+    private boolean dfs(int val, TreeNode node) {
         if (node == null) return false;
         if (val == node.val) return true;
         if (val < node.val) {
-            return searchRecursive(val, node.left);
+            return dfs(val, node.left);
         }
-        return searchRecursive(val, node.right);
+        return dfs(val, node.right);
     }
 
     public List<Integer> preorderTraversal() {
@@ -113,6 +119,20 @@ public class BinaryTree {
             postOrderTraversalRecursive(node.right, result);
             result.add(node.val);
         }
+    }
+
+    private boolean bfs(int target) {
+        if (root == null) return false;
+        Deque<TreeNode> queue = new ArrayDeque<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            var node = queue.poll();
+            println(node.val);
+            if (node.val == target) return true;
+            if (node.left != null) queue.add(node.left);
+            if (node.right != null) queue.add(node.right);
+        }
+        return false;
     }
 
 }
